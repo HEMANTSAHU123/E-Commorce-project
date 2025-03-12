@@ -81,13 +81,13 @@ const About = () => {
         }}>
       <h1 >The Generics</h1>
       <Row>
-        {socialLinks.map((link) => (
+        {socialLinks.map((link,index) => (
           <Col  >
             <a
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-           
+           key={index}
             >
               <Image
                 src={link.icon}

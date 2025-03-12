@@ -1,10 +1,6 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import FrontPage from './FrontPage';
-
-import CartItem from '../Store/CartItem';
-import About from '../About/About';
-
+import { Navbar, Nav, Container} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 const NavbarComponent = () => {
   return (
     <>
@@ -12,18 +8,25 @@ const NavbarComponent = () => {
       <Container>
        
           <Nav  className="mx-auto">
-            <Nav.Link href="/" style={{ color: 'white' }}>Home</Nav.Link>
-            <Nav.Link href="/store" style={{ color: 'white' }}>Store</Nav.Link>
-            <Nav.Link href="/about" style={{ color: 'white' }}>About</Nav.Link>
-            <Nav.Link href='/cart' style={{color:'white'}}>CART</Nav.Link>
+          <Nav.Link as={Link} to="/" style={{ color: 'white' }}>
+              Home
+            </Nav.Link>
+          
+            <Nav.Link as={Link} to="/store" style={{ color: 'white' }}>
+              Store
+            </Nav.Link>
+            <Nav.Link as={Link} to="/about" style={{ color: 'white' }}>
+              About
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cart" style={{ color: 'white' }}>
+              CART
+            </Nav.Link>
           </Nav>
       
      
       </Container>
     </Navbar>
-    <FrontPage/>
-    <CartItem/>
-    <About/>
+   
     </>
   );
 };

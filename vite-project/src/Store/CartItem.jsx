@@ -1,4 +1,5 @@
 import React from "react";
+import NoteContext from "../context/Context";
 import {
   Card,
   ListGroup,
@@ -8,43 +9,10 @@ import {
   Container,
   Button,
 } from "react-bootstrap";
+import { useContext } from "react";
 
 const CartItem = () => {
-  const cartElements = [
-    {
-      title: "Colors",
-
-      price: 100,
-
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-
-      quantity: 2,
-    },
-
-    {
-      title: "Black and white Colors",
-
-      price: 50,
-
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-
-      quantity: 3,
-    },
-
-    {
-      title: "Yellow and Black Colors",
-
-      price: 70,
-
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-
-      quantity: 1,
-    },
-  ];
-
+  const context=useContext(NoteContext);
   return (
     <>
       <div>
@@ -56,14 +24,16 @@ const CartItem = () => {
           }}
         >
           <Container className="text-center">
-            <h1>The Generic</h1>
+            <h1 style={{
+              color:"white"
+            }}>The Generic</h1>
           </Container>
         </div>
         <h2 className="text-center">Music</h2>
         <Row>
           <Col>
             <ListGroup>
-              {cartElements.map((item, index) => (
+              {context.cartItems.map((item, index) => (
                 <ListGroup.Item key={index}>
                   <Card>
                     <Card.Body>
@@ -82,8 +52,9 @@ const CartItem = () => {
                             variant="success"
                             size="small"
                             className="w-10"
+
                           >
-                            Add to Cart
+                            Add to Cart 
                           </Button>
                         </Col>
                       </Row>
