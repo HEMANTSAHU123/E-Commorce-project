@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+
 const FrontPage = () => {
   const events = [
     {
@@ -35,6 +36,7 @@ const FrontPage = () => {
   ];
   return (
     <div>
+      
       <div style={{ 
         background: "rgb(84, 84, 84)",
          padding: "80px 0",gridArea:"initial" }}>

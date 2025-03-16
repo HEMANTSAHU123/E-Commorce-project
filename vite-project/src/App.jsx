@@ -4,7 +4,7 @@ import NavbarComponent from './Home/NavbarComponent'
 import FrontPage from './Home/FrontPage'
 import About from './About/About'
 import CartItem from './Store/CartItem'
-import Cart from './Store/Cart'
+
 const router=createBrowserRouter([
 {
   path:"/",
@@ -16,7 +16,7 @@ const router=createBrowserRouter([
   element:<div>
     <NavbarComponent/>
     <CartItem/>
-    <Cart/>
+  
   </div>
 },
 {

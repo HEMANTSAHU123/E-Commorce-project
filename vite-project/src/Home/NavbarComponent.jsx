@@ -1,7 +1,11 @@
-import React from 'react';
-import { Navbar, Nav, Container} from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Navbar, Nav, Container,Button} from 'react-bootstrap';
+import NoteContext from '../context/Context';
 import { Link } from 'react-router-dom';
+import Cart from '../Store/Cart';
 const NavbarComponent = () => {
+  const[toggle,setToggle]=useState(false);
+  const context=useContext(NoteContext)
   return (
     <>
     <Navbar bg="dark" variant="dark" expand="lg" >
@@ -18,15 +22,14 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/about" style={{ color: 'white' }}>
               About
             </Nav.Link>
-            <Nav.Link as={Link} to="/cart" style={{ color: 'white' }}>
-              CART
-            </Nav.Link>
+          <Button 
+          variant="outline-primary" onClick={()=>setToggle(!toggle)} >Cart:{context.count}</Button>
           </Nav>
       
      
       </Container>
     </Navbar>
-   
+   { toggle && <Cart/>}
     </>
   );
 };

@@ -11,8 +11,11 @@ import {
 } from "react-bootstrap";
 import { useContext } from "react";
 
-const CartItem = () => {
-  const context=useContext(NoteContext);
+const CartItem = (data) => {
+ const{cartItems,setCartItems,items}=useContext(NoteContext);
+ function addToCart(){
+  setCartItems([...cartItems,data])
+ }
   return (
     <>
       <div>
@@ -33,7 +36,7 @@ const CartItem = () => {
         <Row>
           <Col>
             <ListGroup>
-              {context.cartItems.map((item, index) => (
+              {items.map((item, index) => (
                 <ListGroup.Item key={index}>
                   <Card>
                     <Card.Body>
@@ -52,7 +55,7 @@ const CartItem = () => {
                             variant="success"
                             size="small"
                             className="w-10"
-
+                            onClick={addToCart()}
                           >
                             Add to Cart 
                           </Button>

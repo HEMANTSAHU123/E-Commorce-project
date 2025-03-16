@@ -1,12 +1,11 @@
 import React ,{useState}from 'react'
 import NoteContext from './Context'
-
 const ContextProvider = (props) => {
     const[count,setCount]=useState(0)
    
-      const [cartItems, setCartItems] = useState([
+   const [cartItems, setCartItems] = useState([])
         
-        {
+      const items= [{
             title: "Colors",
       
             price: 100,
@@ -37,20 +36,20 @@ const ContextProvider = (props) => {
               "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
       
             quantity: 1,
-          },
-      ]);
-      const removeItem = (id) => {
-        setCartItems(cartItems.filter((item) => item.id !== id));
-        setCount((prev)=>prev-1)
-      };
-    
-  return (
-    <NoteContext.Provider value={{
-        count,cartItems,removeItem
-    }}>
-      {props.children}
-    </NoteContext.Provider>
-  )
-}
+          }]
+      
+     
+    const removeItem = (id) => {
+      setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+      setCount((prev)=>prev-1);
+  };
 
-export default ContextProvider
+
+    return (
+        <NoteContext.Provider value={{ cartItems,removeItem,items,count ,setCartItems}}>
+            {props.children}
+        </NoteContext.Provider>
+    );
+};
+
+export default ContextProvider;

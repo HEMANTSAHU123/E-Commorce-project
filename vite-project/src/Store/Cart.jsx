@@ -7,15 +7,28 @@ const Cart = () => {
 
 const context=useContext(NoteContext)
 
-function removeyourItem(){
-  context.removeItem();
+const handleRemove=(id)=>{
+  context.removeItem(id);
+}
+const handleAddItem=()=>{
+  context.addItem(item)
+  
 }
 
-  const totalPrice = context.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+   const totalPrice = context.items.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
-    <Container className="mt-4">
-      <h1>CART:</h1>
+    <Container  style={{
+      
+position:"absolute",
+top:"5vh",
+right:"0",
+width:"40%",
+height:"88vh",
+backgroundColor:"white"
+
+    }}className="mt-4 ">
+      <h1>Cart:</h1>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -26,15 +39,16 @@ function removeyourItem(){
           </tr>
         </thead>
         <tbody>
-          {context.cartItems.map((item) => (
+          {context.items.map((item) => (
             <tr key={item.id}>
               <td>{item.name}</td>
               <td>${item.price.toFixed(2)}</td>
               <td>{item.quantity}</td>
               <td>
-                <Button variant="danger" onClick={() => removeyourItem()}>
+                <Button variant="danger" onClick={handleRemove(item.id)}>
                   REMOVE
                 </Button>
+                <Button onClick={()=>handleAddItem(item)}>add item</Button>
               </td>
             </tr>
           ))}
@@ -45,6 +59,7 @@ function removeyourItem(){
         <Button variant="success" className="mt-3">
           PURCHASE
         </Button>
+        
       </div>
     </Container>
   );
