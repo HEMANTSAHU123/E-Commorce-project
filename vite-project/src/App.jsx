@@ -4,6 +4,7 @@ import NavbarComponent from './Home/NavbarComponent'
 import FrontPage from './Home/FrontPage'
 import About from './About/About'
 import CartItem from './Store/CartItem'
+import Contact from './contact/Contact'
 
 const router=createBrowserRouter([
 {
@@ -26,6 +27,13 @@ const router=createBrowserRouter([
 <About/>
   </div>
 },
+{
+  path:'contact',
+  element:<div>
+    <NavbarComponent/>
+    <Contact/>
+  </div>
+}
 
 
 ])
