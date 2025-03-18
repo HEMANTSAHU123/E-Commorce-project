@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import Cart from '../Store/Cart';
 const NavbarComponent = () => {
   const[toggle,setToggle]=useState(false);
-  const context=useContext(NoteContext)
+  const context=useContext(NoteContext);
+
+
   return (
     <>
-    <Navbar bg="dark" variant="dark" expand="lg" >
+     <Navbar bg="dark" variant="dark" expand="lg" >
       <Container>
        
           <Nav  className="mx-auto">
@@ -22,13 +24,13 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/about" style={{ color: 'white' }}>
               About
             </Nav.Link>
-            <Nav.Link as={Link} to='/contact' style={{color:'white'}}>Contact Us</Nav.Link>
+            <Nav.Link as={Link} to='/contact' style={{color:'white'}}>Contact Us</Nav.Link> 
           <Button 
           variant="outline-primary" onClick={()=>setToggle(!toggle)}  style={{marginLeft:'auto',
             color:'red'
           }}>Cart:{context.count}</Button>
-          </Nav>
-      
+           </Nav>
+       
      
       </Container>
     </Navbar>

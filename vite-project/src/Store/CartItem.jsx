@@ -11,11 +11,13 @@ import {
 } from "react-bootstrap";
 import { useContext } from "react";
 
-const CartItem = (data) => {
- const{cartItems,setCartItems,items}=useContext(NoteContext);
- function addToCart(){
-  setCartItems([...cartItems,data])
- }
+const CartItem = () => {
+  
+  
+ const{items,addToCart}=useContext(NoteContext);
+
+ 
+
   return (
     <>
       <div>
@@ -55,7 +57,7 @@ const CartItem = (data) => {
                             variant="success"
                             size="small"
                             className="w-10"
-                            onClick={addToCart()}
+                            onClick={()=>addToCart(item)}
                           >
                             Add to Cart 
                           </Button>

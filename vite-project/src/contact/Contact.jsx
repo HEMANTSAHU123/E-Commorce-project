@@ -1,72 +1,101 @@
-import React, {useState, useEffect } from 'react';
-import { Form, Button, Container,Alert } from 'react-bootstrap';
-import axios from 'axios'
+
+import React, { useState } from 'react';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc } from 'firebase/firestore';
+
+import { db } from '../firebase/firebase';
 const Contact = () => {
-  const[list,setList]=useState([])
-  const [message, setMessage] = useState('');
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem('contactList')) || [];
-    setList(storedData);
-  }, []);
-  const handleFormSubmit=async(event)=>{
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    mobileno: '',
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { name, email, mobileno } = formData;
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const form=new FormData(event.target);
-const name=form.get('name');
-const email=form.get('email');
-const mobileno=form.get('mobileno');
-const contactlist={
-  name,email,mobileno
-};
-try {
+    setError('');
+    setSuccess('');
+    setLoading(true);
 
-  const response = await axios.post(
-    'https://crudcrud.com/api/428dcc2d8a7f4ddebfc25cecbf117270', 
-    contactlist,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    if (!name || !email || !mobileno) {
+      setError('Please fill in all the fields.');
+      setLoading(false);
+      return;
     }
-  );
 
- 
-  setMessage('Contact saved successfully!');
+    try {
+       
+      const contactsCollectionRef = collection(db, 'contacts');
+      await addDoc(contactsCollectionRef, formData);
 
-
-  const updatedList = [...list, contactlist];
-  setList(updatedList);
-  localStorage.setItem('contactList', JSON.stringify(updatedList));
-
-
-  event.target.reset();
-} catch (error) {
-
-  setMessage('Error saving contact. Please try again.');
-  console.error(error);
-}
-};
+      setSuccess('Contact information submitted successfully!');
+      setFormData({ name: '', email: '', mobileno: '' }); 
+    } catch (error) {
+      console.error('Error submitting contact information:', error);
+      setError('Failed to submit contact information.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Container className="mt-5">
-       {message && <Alert variant={message.includes('Error') ? 'danger' : 'success'}>{message}</Alert>}
-      <Form onSubmit={handleFormSubmit}>
-        <Form.Group controlId="formName" className="mb-3">
+    <Container>
+      <h2>Contact Us</h2>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
+
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" name="name" placeholder="Enter your name" required />
+          <Form.Control
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            placeholder="Enter your name"
+            required
+          />
         </Form.Group>
 
-        <Form.Group controlId="formEmail" className="mb-3">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" name="email" placeholder="Enter your email" required />
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+            placeholder="Enter your email"
+            required
+            pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}" 
+          />
         </Form.Group>
 
-        <Form.Group controlId="formMobile" className="mb-3">
-          <Form.Label>Mobile No.</Form.Label>
-          <Form.Control type="number" name="mobileno" placeholder="Enter your mobile number" required />
+        <Form.Group className="mb-3" controlId="formBasicMobile">
+          <Form.Label>Mobile Number</Form.Label>
+          <Form.Control
+            type="tel" 
+            name="mobileno"
+            value={mobileno}
+            onChange={handleChange}
+            placeholder="Enter your mobile number"
+            required
+           
+          />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
+        <Button variant="primary" type="submit" disabled={loading}>
+          {loading ? 'Submitting...' : 'Submit'}
         </Button>
       </Form>
     </Container>
