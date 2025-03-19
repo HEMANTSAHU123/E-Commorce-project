@@ -1,10 +1,8 @@
-
 import React, { useState } from 'react';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc } from 'firebase/firestore';
+import { ref, push } from 'firebase/database'; // Import Realtime Database functions
+import { realtimeDatabase } from '../firebase/firebase'; // Import the Realtime Database instance
 
-import { db } from '../firebase/firebase';
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -35,15 +33,15 @@ const Contact = () => {
     }
 
     try {
-       
-      const contactsCollectionRef = collection(db, 'contacts');
-      await addDoc(contactsCollectionRef, formData);
+      const contactsRef = ref(realtimeDatabase, 'contacts'); 
+      await push(contactsRef, formData);
 
-      setSuccess('Contact information submitted successfully!');
-      setFormData({ name: '', email: '', mobileno: '' }); 
+      setSuccess('Contact information submitted successfully to Realtime Database!');
+      setFormData({ name: '', email: '', mobileno: '' });
+      console.log('Data saved to Realtime Database:', formData);
     } catch (error) {
-      console.error('Error submitting contact information:', error);
-      setError('Failed to submit contact information.');
+      console.error('Error submitting contact information to Realtime Database:', error);
+      setError('Failed to submit contact information to Realtime Database.');
     } finally {
       setLoading(false);
     }
@@ -77,20 +75,19 @@ const Contact = () => {
             onChange={handleChange}
             placeholder="Enter your email"
             required
-            pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}" 
+            pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}"
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicMobile">
           <Form.Label>Mobile Number</Form.Label>
           <Form.Control
-            type="tel" 
+            type="tel"
             name="mobileno"
             value={mobileno}
             onChange={handleChange}
             placeholder="Enter your mobile number"
             required
-           
           />
         </Form.Group>
 

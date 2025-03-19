@@ -1,7 +1,8 @@
-
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database"; 
+
 const firebaseConfig = {
   apiKey: "AIzaSyDfEzk3b6kjDwX81zoa3fA1wbKACCO7SOE",
   authDomain: "e-commorce-website.firebaseapp.com",
@@ -13,8 +14,8 @@ const firebaseConfig = {
   measurementId: "G-BRXGFWWFWD"
 };
 
-
- const app = initializeApp(firebaseConfig);
- export const auth = getAuth(app);
-export const db = getFirestore(app);
-
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const firestore = getFirestore(app); 
+export const realtimeDatabase = getDatabase(app); 
+export const db=getFirestore(app);

@@ -1,0 +1,21 @@
+/* ProductMoviePage.css */
+.product-movie-page {
+    padding-bottom: 30px;
+  }
+  
+  .product-movie-page h1 {
+    margin-bottom: 15px;
+  }
+  
+  .product-movie-page .lead {
+    font-size: 1.1rem;
+    color: #6c757d;
+  }
+  
+  .product-movie-page strong {
+    font-weight: bold;
+  }
+  
+  .product-movie-page .embed-responsive {
+    margin-top: 20px;
+  }
