@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const Profile = () => {
   const [userdetails, setUserdetails] = useState(null);
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Added isLoading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -18,10 +18,10 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserdata = async () => {
-      setIsLoading(true); // Set loading to true before fetching
+      setIsLoading(true);
       if (user) {
         try {
-          const docref = doc(db, 'User', user.uid);
+          const docref = doc(db, 'Users', user.uid); 
           const docSnap = await getDoc(docref);
           if (docSnap.exists()) {
             setUserdetails(docSnap.data());
@@ -32,13 +32,14 @@ const Profile = () => {
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
+          toast.error('Error fetching user data.');
           setUserdetails(null);
         } finally {
-          setIsLoading(false); 
+          setIsLoading(false);
         }
       } else {
         setUserdetails(null);
-        setIsLoading(false); 
+        setIsLoading(false);
         console.log('User is not logged in.');
       }
     };
@@ -50,8 +51,10 @@ const Profile = () => {
       await auth.signOut();
       window.location.href = '/login';
       console.log('User logged out successfully');
+      toast.success('User logged out successfully');
     } catch (error) {
       console.error('Error logged out:', error.message);
+      toast.error('Error logging out.');
     }
   }
 

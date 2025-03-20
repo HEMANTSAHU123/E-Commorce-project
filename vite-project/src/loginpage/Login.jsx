@@ -1,4 +1,9 @@
-import { signInWithEmailAndPassword, updatePassword, updateEmail,  EmailAuthProvider, reauthenticateWithCredential,sendEmailVerification } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from 'firebase/auth';
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Modal } from 'react-bootstrap';
 import { auth } from '../firebase/firebase';
@@ -11,8 +16,6 @@ const Login = () => {
   });
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [newPassword, setNewPassword] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [updateType, setUpdateType] = useState('password'); 
 
   const handleForm = (event) => {
     const { name, value } = event.target;
@@ -41,20 +44,11 @@ const Login = () => {
         );
         await reauthenticateWithCredential(auth.currentUser, credential);
 
-        if (updateType === 'password') {
-          await updatePassword(auth.currentUser, newPassword);
-          toast.success('Password updated successfully');
-        } else if (updateType === 'email') {
-          await updateEmail(auth.currentUser, newEmail);
-          await sendEmailVerification(auth.currentUser);
-          toast.success(
-            'Email update requested. Please verify your new email address.'
-          );
-         
-        }
+        await updatePassword(auth.currentUser, newPassword);
+        toast.success('Password updated successfully');
+
         setShowUpdateModal(false);
         setNewPassword('');
-        setNewEmail('');
       } else {
         toast.error('User not logged in');
       }
@@ -62,7 +56,6 @@ const Login = () => {
       console.log(error);
       toast.error(error.message);
     }
-  
   };
 
   return (
@@ -103,21 +96,10 @@ const Login = () => {
               variant="link"
               onClick={() => {
                 setShowUpdateModal(true);
-                setUpdateType('password');
               }}
               className="mt-2"
             >
               Update Password
-            </Button>
-            <Button
-              variant="link"
-              onClick={() => {
-                setShowUpdateModal(true);
-                setUpdateType('email');
-              }}
-              className="mt-2"
-            >
-              Update Email
             </Button>
           </Form>
         </Col>
@@ -125,30 +107,18 @@ const Login = () => {
 
       <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Update {updateType === 'password' ? 'Password' : 'Email'}</Modal.Title>
+          <Modal.Title>Update Password</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {updateType === 'password' ? (
-            <Form.Group>
-              <Form.Label>New Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-            </Form.Group>
-          ) : (
-            <Form.Group>
-              <Form.Label>New Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter new email"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-              />
-            </Form.Group>
-          )}
+          <Form.Group>
+            <Form.Label>New Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </Form.Group>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowUpdateModal(false)}>

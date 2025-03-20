@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
-import { ref, push } from 'firebase/database'; // Import Realtime Database functions
-import { realtimeDatabase } from '../firebase/firebase'; // Import the Realtime Database instance
+import { ref, push } from 'firebase/database'; 
+import { realtimeDatabase } from '../firebase/firebase'; 
 
 const Contact = () => {
   const [formData, setFormData] = useState({
